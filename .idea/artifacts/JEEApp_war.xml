@@ -7,7 +7,7 @@
         <packaging>war</packaging>
       </options>
     </properties>
-    <root id="archive" name="JersyApp.war">
+    <root id="archive" name="JEEApp.war">
       <element id="artifact" artifact-name="JEEApp:war exploded" />
     </root>
   </artifact>

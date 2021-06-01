@@ -50,7 +50,7 @@
         </button>
     </div>
     </c:if>
-    <p>"Res:"${response}</p>
+
     <table class="table">
         <thead class="thead-dark">
         <tr>
@@ -79,12 +79,22 @@
         </c:forEach>
         </tbody>
     </table>
-    <div id="result">Test</div>
 
-
-    <!-- <a href="rest/api/getdata">Api Data</a>
-     <a href="Persondata.jsp">Person Data</a>-->
-
+</div>
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+    <div class="toast" style="position: absolute; top: 0; right: 0;">
+        <div class="toast-header">
+            <img src="..." class="rounded mr-2" alt="...">
+            <strong class="mr-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body">
+            Hello, world! This is a toast message.
+        </div>
+    </div>
 </div>
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -115,8 +125,8 @@
 <script type="text/javascript">
     function submitForm(x){
         console.log( "Calling ajax"+x );
-        var values = $(this).serialize();
-        console.log( values );
+      //  var values = $(this).serialize();
+       // console.log( values );
        var request= $.ajax({
             url: "PersonDataServlet",
             type: "post",
@@ -127,63 +137,37 @@
            //dataType: 'json',
            success: function(data, textStatus, xhr) {
                console.log(xhr.status);
+
+               console.log("msg:"+xhr.getResponseHeader('msg'));
+              // $('.toast').toast('show');
+
+             //  location.reload();
+               /// console.log("xhr:"+xhr);
            },
            complete: function(xhr, textStatus) {
                console.log(xhr.status);
+             //  console.log("xhr:"+xhr);
            },
             error:function(){
                 console.log("Error");//does not print in the console
                 alert("error");
             }
         });
-        console.log( "Request : " + request );
-        request.done(function(msg) {
-            console.log( msg );
-        });
-
-        request.fail(function(jqXHR, textStatus) {
-            console.log( "Request failed: " + textStatus );
-        });
     }
-    // $(document).ready(function() {
-    //     alert("test");
-    //     $('#action-button').click(function (){
-    //         $.ajax({
-    //             type: "post",
-    //             url: "/path",
-    //             data: "email=" + $('#email').val() + "&subject="+$('#subject').val() + "&msg=" + $('#msg').val(),
-    //             success: function(msg){
-    //                 //
-    //             }
-    //         });
-    //     });
-    // });
+    $( "button" ).click( function () {
+            sessionStorage.reloadAfterPageLoad = true;
+            window.location.reload();
+        }
+    );
+
+    $( function () {
+            if ( sessionStorage.reloadAfterPageLoad ) {
+                alert( "Hello world" );
+                sessionStorage.reloadAfterPageLoad = false;
+            }
+        }
+    );
 </script>
-<script>
-    document.getElementById("action-button").onclick = function() {myFunction()};
-
-    /* myFunction toggles between adding and removing the show class, which is used to hide and show the dropdown content */
-    function myFunction() {
-        alert("error");
-    }
-    $('#action-button').click(function() {
-        alert("error");
-        // $.ajax({
-        //     url: "PersonDataServlet",
-        //     type: "post",
-        //     data: values,
-        //     success:function(response) {
-        //         document.getElementById("result").innerHTML =response;
-        //     },
-        //     error:function(){
-        //         alert("error");
-        //     }
-        // });
-    });
-</script>
-
-
-
 
 </body>
 </html>

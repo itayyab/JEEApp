@@ -16,9 +16,9 @@ public class DatabaseOperations {
     public DatabaseOperations() {
     }
 
-    List<PersonData> GetPersonsData() throws Exception {
+    List<PersonData> GetPersonsData(DbConnection dbConnection) throws Exception {
         List<PersonData> data = new ArrayList<PersonData>();
-        Connection conn = new DbConnection().getConnection();
+        Connection conn = dbConnection.getConnection();
 
         String query = "SELECT * FROM persondata";
 
@@ -52,37 +52,50 @@ public class DatabaseOperations {
         //  return Response.ok(entity).build();
         // return response;
     }
-    Response SavePersonData(PersonData user) {
-        String res;
+    Response SavePersonData(DbConnection dbConnection,PersonData user)  {
+        String res="Error";
+               Response response=null;
         try {
 
             String sql = "insert into persondata (PName) values(?)";
+            String[] generatedId = { "ID" };
+            Connection conn = dbConnection.getConnection();
 
-            Connection conn = new DbConnection().getConnection();
-
-            PreparedStatement pst = conn.prepareStatement(sql);
+            PreparedStatement pst = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, user.getName());
 
             pst.executeUpdate();
+
+                ResultSet rs = pst.getGeneratedKeys();
+                rs.next();
+               int count = rs.getInt(1);
+
+
             pst.close();
             conn.close();
+            Gson jsonConverter = new GsonBuilder().create();
             res = "Data saved Successfully";
+            String resp= "{\"id\":"+count+",\"msg\":\""+res+"\"}";
+            response=Response.status(Response.Status.OK)
+                    .entity(jsonConverter.toJson(resp))
+                    .type(MediaType.APPLICATION_JSON
+                    ).build();
+
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             res = e.getMessage();
+
         }
 
-        return Response.status(Response.Status.OK)
-                .entity(res)
-                .type(MediaType.APPLICATION_JSON).build();
+        return response;
     }
-    String DeletePersonData(String user) {
+    Response DeletePersonData(DbConnection dbConnection,String user) {
         String res;
         try {
 
             String sql = "delete from persondata where PID=?";
 
-            Connection conn = new DbConnection().getConnection();
+            Connection conn = dbConnection.getConnection();
 
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, user);
@@ -95,7 +108,9 @@ public class DatabaseOperations {
             //e.printStackTrace();
             res = e.getMessage();
         }
-
-        return res;
+        return Response.status(Response.Status.OK)
+                .entity(res)
+                .type(MediaType.APPLICATION_JSON).build();
+       // return res;
     }
 }

@@ -7,20 +7,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 @WebServlet(name = "PersonDataServlet")
 public class PersonDataServlet extends HttpServlet {
 
 
+    DbConnection dbConnection=new DbConnection();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // read form fields
+        //getServletContext().getResourceAsStream("app.properties");
         if ("delete".equals(request.getParameter("action"))) {
             String username = request.getParameter("deleteid");
 
             DatabaseOperations databaseOperations = new DatabaseOperations();
-            String res = databaseOperations.DeletePersonData(username);
+            Response res = databaseOperations.DeletePersonData(dbConnection,username);
            // request.setAttribute("response", "ddeTELTED " + res);
             request.setAttribute("dataaction", "delete");
             //PrintWriter writer = response.getWriter();
@@ -42,6 +43,7 @@ public class PersonDataServlet extends HttpServlet {
           //  request.getRequestDispatcher("ShowData.jsp").include(request, response);
 //            if (page != null && page.equals("inputForm")) {
                 response.setStatus(HttpServletResponse.SC_OK);
+                response.setHeader("msg",res.getEntity().toString());
                // response.sendRedirect("ShowData.jsp");
 //            } else {
 //                response.sendError(HttpServletResponse.SC_NOT_FOUND, "The requested page ["
@@ -57,7 +59,7 @@ public class PersonDataServlet extends HttpServlet {
             DatabaseOperations dabaseOperations = new DatabaseOperations();
             PersonData personData = new PersonData();
             personData.setName(username);
-            Response res = dabaseOperations.SavePersonData(personData);
+            Response res = dabaseOperations.SavePersonData(dbConnection,personData);
             //PrintWriter writer = response.getWriter();
 //
 //            // build HTML code
@@ -82,6 +84,7 @@ public class PersonDataServlet extends HttpServlet {
            // writer.println(htmlRespone);
            request.setAttribute("response", res);
             request.setAttribute("dataaction", "save");
+            response.setHeader("msg",res.getEntity().toString());
         //    response.setContentType("text/plain");
             //response.setCharacterEncoding("UTF-8");
 
@@ -104,7 +107,7 @@ public class PersonDataServlet extends HttpServlet {
             DatabaseOperations databaseOperations = new DatabaseOperations();
             List<PersonData> data = null;
             try {
-                data = databaseOperations.GetPersonsData();
+                data = databaseOperations.GetPersonsData(dbConnection);
             } catch (Exception e) {
                 e.printStackTrace();
             }
