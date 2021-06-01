@@ -37,5 +37,6 @@ steps:
 - task: PublishCodeCoverageResults@1
   inputs:
     summaryFileLocation: '**/target/site/jacoco/jacoco.xml'
-    #pathToSources: # Optional
-    #failIfCoverageEmpty: false # Optional
+- task: SonarQubePublish@4
+  inputs:
+    pollingTimeoutSec: '300'
