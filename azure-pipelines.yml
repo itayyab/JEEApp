@@ -22,6 +22,6 @@ steps:
     goals: 'package'
 - task: PublishCodeCoverageResults@1
   inputs:
-    summaryFileLocation: '**/target/site/jacoco/jacoco.xml'
+    summaryFileLocation: '**/target/site/jacoco/'
     #pathToSources: # Optional
     #failIfCoverageEmpty: false # Optional    
