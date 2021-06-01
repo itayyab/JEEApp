@@ -11,6 +11,11 @@ pool:
   name: TayyabPC
 
 steps:
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '11'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'SonarCloudJEEAPP'
