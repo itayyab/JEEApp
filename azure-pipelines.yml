@@ -35,6 +35,7 @@ steps:
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
+    goals: 
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     codeCoverageToolOption: 'JaCoCo'
@@ -48,6 +49,7 @@ steps:
     sqMavenPluginVersionChoice: 'latest'
     checkStyleRunAnalysis: true
     findBugsRunAnalysis: true
+  
 - task: PublishCodeCoverageResults@1
   inputs:
     summaryFileLocation: '**/target/site/jacoco/jacoco.xml'
