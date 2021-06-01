@@ -35,11 +35,11 @@ steps:
     checkStyleRunAnalysis: true
     pmdRunAnalysis: true
     findBugsRunAnalysis: true
-- task: SonarQubePublish@4
-  inputs:
-    pollingTimeoutSec: '300'
+# - task: SonarQubePublish@4
+#   inputs:
+#     pollingTimeoutSec: '300'
 - task: PublishCodeCoverageResults@1
   inputs:
-    summaryFileLocation: '**/target/site/jacoco/jacoco.xml'
+    summaryFileLocation: '**/CCReport43F6D5EF/jacoco.xml'
 
   
