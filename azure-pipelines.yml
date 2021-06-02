@@ -18,9 +18,9 @@ steps:
     extraProperties: |
       sonar.host.url=http://localhost:9000/
       sonar.exclusions=**/*.bin
-- task: MavenAuthenticate@0
-  inputs:
-    artifactsFeeds: 'itayyab'
+# - task: MavenAuthenticate@0
+#   inputs:
+#     artifactsFeeds: 'itayyab'
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
@@ -33,7 +33,7 @@ steps:
     jdkVersionOption: '1.8'
     mavenVersionOption: 'Default'
     mavenOptions: '-Xmx3072m'
-    mavenAuthenticateFeed: false
+    mavenAuthenticateFeed: true
     effectivePomSkip: false
     sonarQubeRunAnalysis: true
     isJacocoCoverageReportXML: true
