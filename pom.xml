@@ -21,7 +21,24 @@
     <!--<sonar.organization>itayyab</sonar.organization>-->
     <sonar.host.url>http://localhost:9000/</sonar.host.url>
   </properties>
-
+  <repositories>
+  <repository>
+    <id>itayyab</id>
+    <url>https://itayyab.pkgs.visualstudio.com/_packaging/itayyab/maven/v1</url>
+    <releases>
+      <enabled>true</enabled>
+    </releases>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+  </repository>
+  </repositories>
+  <distributionManagement>
+    <repository>
+      <id>itayyab</id>
+      <url>https://itayyab.pkgs.visualstudio.com/_packaging/itayyab/maven/v1</url>
+    </repository>
+  </distributionManagement>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
