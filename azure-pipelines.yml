@@ -15,7 +15,9 @@ steps:
   inputs:
     SonarQube: 'Sonar Local'
     scannerMode: 'Other'
-    extraProperties: 'sonar.host.url=http://localhost:9000/'
+    extraProperties: |
+      sonar.host.url=http://localhost:9000/
+      sonar.exclusions=**/*.bin
 
 - task: Maven@3
   inputs:
