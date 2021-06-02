@@ -18,10 +18,13 @@ steps:
     extraProperties: |
       sonar.host.url=http://localhost:9000/
       sonar.exclusions=**/*.bin
-
+- task: MavenAuthenticate@0
+  inputs:
+    artifactsFeeds: 'itayyab'
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
+    goals: 'package deploy'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     codeCoverageToolOption: 'JaCoCo'
@@ -33,7 +36,7 @@ steps:
     effectivePomSkip: false
     sonarQubeRunAnalysis: true
     isJacocoCoverageReportXML: true
-    sqMavenPluginVersionChoice: 'pom'
+    sqMavenPluginVersionChoice: 'latest'
     checkStyleRunAnalysis: true
     pmdRunAnalysis: true
     findBugsRunAnalysis: true
