@@ -1,6 +1,5 @@
 package org.tayyab;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,8 +15,8 @@ import java.util.List;
 
 @Path("api")
 public class Api {
-    DbConnection dbConnection=new DbConnection();
     private final DatabaseOperations databaseOperations = new DatabaseOperations();
+    DbConnection dbConnection = new DbConnection();
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent
@@ -25,24 +24,18 @@ public class Api {
      *
      * @return String that will be returned as a text/plain response.
      */
-
     @POST()
     @Path("/adddata")
     @Consumes(MediaType.APPLICATION_JSON)// specifies the request body content
     @Produces(MediaType.APPLICATION_JSON)
     public Response addPerson(String jsondata) {
-        String res = "Error";
-        ObjectMapper mapper = new ObjectMapper();
-
-//JSON from String to Object
-        PersonData user = null;
         try {
-            user = mapper.readValue(jsondata, PersonData.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            ObjectMapper mapper = new ObjectMapper();
+            PersonData user = mapper.readValue(jsondata, PersonData.class);
+            return databaseOperations.SavePersonData(dbConnection.getConnection(), user);
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).type(e.getMessage()).build();
         }
-        Response response = databaseOperations.SavePersonData(dbConnection,user);
-        return response;
     }
 
     @POST()
@@ -50,34 +43,28 @@ public class Api {
     @Consumes(MediaType.APPLICATION_JSON)// specifies the request body content
     @Produces(MediaType.TEXT_PLAIN)
     public Response deletePerson(String jsondata) {
-        String res = "Error";
-        ObjectMapper mapper = new ObjectMapper();
-
-//JSON from String to Object
-        PersonData user = null;
         try {
-            user = mapper.readValue(jsondata, PersonData.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            ObjectMapper mapper = new ObjectMapper();
+            PersonData user = mapper.readValue(jsondata, PersonData.class);
+            return databaseOperations.DeletePersonData(dbConnection.getConnection(), String.valueOf(user.getId()));
+
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).type(e.getMessage()).build();
         }
-        Response response = databaseOperations.DeletePersonData(dbConnection,String.valueOf(user.getId()));
-        return response;
     }
+
     @GET()
     @Path("/getdata")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getData() {
         try {
-            List<PersonData> data=databaseOperations.GetPersonsData(dbConnection);
+            List<PersonData> data = databaseOperations.GetPersonsData(dbConnection.getConnection());
             Gson jsonConverter = new GsonBuilder().create();
-            System.out.println(data);
             return Response.status(Response.Status.OK).entity(jsonConverter.toJson(data)).build();
 
         } catch (Exception e) {
             return Response.status(Response.Status.BAD_REQUEST).type(e.getMessage()).build();
-            //  e.printStackTrace();
         }
-        // return null;
     }
 
 

@@ -10,19 +10,15 @@ import java.io.Serializable;
 
 
 /**
- *
  * @author Tayyab
  */
 @XmlRootElement
 public class PersonData implements Serializable {
-    PersonData(){
-
-    }
-    
     private long id;
     private String name;
-   
- 
+    PersonData() {
+
+    }
 
     public long getId() {
         return id;
@@ -40,6 +36,6 @@ public class PersonData implements Serializable {
         this.name = namex;
     }
 
-   
+
 }  
 
