@@ -1,15 +1,14 @@
 package org.tayyab;
 
 
-
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import sun.applet.Main;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
