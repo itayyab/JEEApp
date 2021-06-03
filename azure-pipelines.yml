@@ -30,7 +30,7 @@ steps:
   inputs:
     mavenPomFile: 'pom.xml'
     goals: 'package deploy'
-    options: '-X'
+#    options: '-X'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     codeCoverageToolOption: 'JaCoCo'
