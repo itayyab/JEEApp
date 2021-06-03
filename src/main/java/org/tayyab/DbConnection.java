@@ -14,7 +14,7 @@ import java.util.Properties;
  * @author Tayyab
  */
 public class DbConnection {
-    String database = "jersey_db";
+    String database = "jersey_dbx";
     public Connection getConnection() {
         //try (InputStream input =  ClassLoader.getSystemResourceAsStream("app.properties")) {
         try (InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("app.properties")) {
@@ -26,7 +26,7 @@ public class DbConnection {
             database = prop.getProperty("db.database");
             String connectionURL = "jdbc:mysql://localhost:3308/" + database;
             Connection connection = null;
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             connection = DriverManager.getConnection(connectionURL, "root", "root");
             return connection;
         } catch (Exception ex) {

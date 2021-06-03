@@ -79,7 +79,7 @@ public class DatabaseOperations {
         PreparedStatement pst = null;
         try {
             String sql = "delete from persondata where PID=?";
-            conn.prepareStatement(sql);
+            pst = conn.prepareStatement(sql);
             pst.setString(1, user);
             pst.executeUpdate();
             res = "Data deleted Successfully";
