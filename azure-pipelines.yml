@@ -11,26 +11,31 @@ pool:
   name: TayyabPC
 
 steps:
-- task: SonarQubePrepare@4
+# - task: SonarQubePrepare@4
+#   inputs:
+#     SonarQube: 'Sonar Local'
+#     scannerMode: 'Other'
+#     extraProperties: |
+#       sonar.host.url=http://localhost:9000/
+#       sonar.exclusions=**/*.bin
+- task: SonarCloudPrepare@1
   inputs:
-    SonarQube: 'Sonar Local'
+    SonarCloud: 'SonarCloud'
+    organization: 'itayyab'
     scannerMode: 'Other'
-    extraProperties: |
-      sonar.host.url=http://localhost:9000/
-      sonar.exclusions=**/*.bin
 - task: MavenAuthenticate@0
   inputs:
     artifactsFeeds: 'itayyab'
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
-    options: '-X'
     goals: 'package deploy'
+    options: '-X'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     codeCoverageToolOption: 'JaCoCo'
     javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
+    jdkVersionOption: '1.11'
     mavenVersionOption: 'Default'
     mavenOptions: '-Xmx3072m'
     mavenAuthenticateFeed: true
@@ -41,6 +46,9 @@ steps:
     checkStyleRunAnalysis: true
     pmdRunAnalysis: true
     findBugsRunAnalysis: true
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
 # - task: SonarQubePublish@4
 #   inputs:
 #     pollingTimeoutSec: '300'
