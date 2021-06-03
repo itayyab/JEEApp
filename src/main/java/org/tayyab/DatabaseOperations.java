@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseOperations {
-    public DatabaseOperations() {
-    }
-
     List<PersonData> GetPersonsData(Connection conn) throws Exception {
         Statement st = null;
         List<PersonData> data = new ArrayList<PersonData>();
@@ -34,7 +31,8 @@ public class DatabaseOperations {
         } catch (Exception e) {
             throw (e);
         } finally {
-            st.close();
+            if (st != null)
+                st.close();
             conn.close();
         }
         return data;
@@ -66,9 +64,11 @@ public class DatabaseOperations {
             String resp = "{\"id\":" + count + ",\"msg\":\"" + e.getMessage() + "\"}";
             jsonConverter.toJson(resp);
         } finally {
-            pst.close();
-            rs.close();
-            conn.close();
+            if (pst != null && rs != null) {
+                pst.close();
+                rs.close();
+                conn.close();
+            }
         }
 
         return response;
@@ -86,7 +86,8 @@ public class DatabaseOperations {
         } catch (Exception e) {
             res = e.getMessage();
         } finally {
-            pst.close();
+            if (pst != null)
+                pst.close();
             conn.close();
         }
         return Response.status(Response.Status.OK)

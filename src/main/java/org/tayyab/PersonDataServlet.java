@@ -15,10 +15,11 @@ public class PersonDataServlet extends HttpServlet {
 
 
     DbConnection dbConnection = new DbConnection();
-
+    final String dataaction = "dataaction";
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // read form fields
         //getServletContext().getResourceAsStream("app.properties");
+
         if ("delete".equals(request.getParameter("action"))) {
             String username = request.getParameter("deleteid");
 
@@ -30,7 +31,7 @@ public class PersonDataServlet extends HttpServlet {
                 throwables.printStackTrace();
             }
             // request.setAttribute("response", "ddeTELTED " + res);
-            request.setAttribute("dataaction", "delete");
+            request.setAttribute(dataaction, "delete");
             //PrintWriter writer = response.getWriter();
 //            String htmlRespone = "<html>";
 //            htmlRespone += "<div class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\">";
@@ -93,7 +94,7 @@ public class PersonDataServlet extends HttpServlet {
 //            // return response
             // writer.println(htmlRespone);
             request.setAttribute("response", res);
-            request.setAttribute("dataaction", "save");
+            request.setAttribute(dataaction, "save");
             response.setHeader("msg", res.getEntity().toString());
             //    response.setContentType("text/plain");
             //response.setCharacterEncoding("UTF-8");
@@ -111,7 +112,7 @@ public class PersonDataServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Boolean reload = (Boolean) request.getAttribute("reload");
-        String username = request.getParameter("dataaction");
+        String username = request.getParameter(dataaction);
 
         //  if(username!="delete") {
         DatabaseOperations databaseOperations = new DatabaseOperations();
