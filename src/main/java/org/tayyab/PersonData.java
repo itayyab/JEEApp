@@ -16,8 +16,8 @@ import java.io.Serializable;
 public class PersonData implements Serializable {
     private long id;
     private String name;
-    PersonData() {
 
+    PersonData() {
     }
 
     public long getId() {
