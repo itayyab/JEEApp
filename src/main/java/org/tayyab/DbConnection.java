@@ -15,6 +15,8 @@ import java.util.Properties;
  */
 public class DbConnection {
     String database = "jersey_dbx";
+    String user="root";
+    String pass="root";
     public Connection getConnection() {
         //try (InputStream input =  ClassLoader.getSystemResourceAsStream("app.properties")) {
         try (InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("app.properties")) {
@@ -24,10 +26,12 @@ public class DbConnection {
             prop.load(input);
             // get the property value and print it out
             database = prop.getProperty("db.database");
+            user=prop.getProperty("db.user");
+             pass=prop.getProperty("db.pass");
             String connectionURL = "jdbc:mysql://localhost:3308/" + database;
             Connection connection = null;
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            connection = DriverManager.getConnection(connectionURL, "root", "root");
+            connection = DriverManager.getConnection(connectionURL, user, pass);
             return connection;
         } catch (Exception ex) {
             //System.out.println(String.valueOf(getClass().getResourceAsStream("resources/app.properties")));

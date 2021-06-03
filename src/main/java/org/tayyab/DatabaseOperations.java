@@ -11,11 +11,10 @@ import java.util.List;
 
 public class DatabaseOperations {
     List<PersonData> GetPersonsData(Connection conn) throws Exception {
-        Statement st = null;
+        Statement  st = conn.createStatement();
         List<PersonData> data = new ArrayList<PersonData>();
         try {
             String query = "SELECT * FROM persondata";
-            st = conn.createStatement();
             // execute the query, and get a java resultset
             ResultSet rs = st.executeQuery(query);
             // iterate through the java resultset
@@ -25,13 +24,11 @@ public class DatabaseOperations {
                 PersonData pd = new PersonData();
                 pd.setId(id);
                 pd.setName(firstName);
-                // print the results
                 data.add(pd);
             }
         } catch (Exception e) {
             throw (e);
         } finally {
-            if (st != null)
                 st.close();
             conn.close();
         }
@@ -42,12 +39,11 @@ public class DatabaseOperations {
         String res = "Error";
         Response response = null;
         ResultSet rs = null;
-        PreparedStatement pst = null;
+        String sql = "insert into persondata (PName) values(?)";
+        PreparedStatement  pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         int count = 0;
         Gson jsonConverter = new GsonBuilder().create();
         try {
-            String sql = "insert into persondata (PName) values(?)";
-            pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, user.getName());
             pst.executeUpdate();
             rs = pst.getGeneratedKeys();
@@ -64,29 +60,25 @@ public class DatabaseOperations {
             String resp = "{\"id\":" + count + ",\"msg\":\"" + e.getMessage() + "\"}";
             jsonConverter.toJson(resp);
         } finally {
-            if (pst != null && rs != null) {
                 pst.close();
                 rs.close();
                 conn.close();
-            }
         }
 
         return response;
     }
 
     Response DeletePersonData(Connection conn, String user) throws SQLException {
-        String res;
-        PreparedStatement pst = null;
+        String res="";
+        String sql = "delete from persondata where PID=?";
+        PreparedStatement pst = conn.prepareStatement(sql);
         try {
-            String sql = "delete from persondata where PID=?";
-            pst = conn.prepareStatement(sql);
             pst.setString(1, user);
             pst.executeUpdate();
             res = "Data deleted Successfully";
         } catch (Exception e) {
             res = e.getMessage();
         } finally {
-            if (pst != null)
                 pst.close();
             conn.close();
         }

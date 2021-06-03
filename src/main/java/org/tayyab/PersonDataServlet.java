@@ -28,7 +28,6 @@ public class PersonDataServlet extends HttpServlet {
             try {
                 res = databaseOperations.DeletePersonData(dbConnection.getConnection(), username);
             } catch (SQLException throwables) {
-                throwables.printStackTrace();
             }
             // request.setAttribute("response", "ddeTELTED " + res);
             request.setAttribute(dataaction, "delete");
@@ -71,7 +70,7 @@ public class PersonDataServlet extends HttpServlet {
             try {
                 res = dabaseOperations.SavePersonData(dbConnection.getConnection(), personData);
             } catch (Exception e) {
-                e.printStackTrace();
+
             }
             //PrintWriter writer = response.getWriter();
 //
@@ -120,7 +119,7 @@ public class PersonDataServlet extends HttpServlet {
         try {
             data = databaseOperations.GetPersonsData(dbConnection.getConnection());
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
         request.setAttribute("data", data);
         //   request.setAttribute("reload", true);
