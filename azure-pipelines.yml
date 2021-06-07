@@ -59,6 +59,10 @@ steps:
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'JEEAPP'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.Repository.LocalPath)/target/JEEAPP.war'
+    ArtifactName: 'JEEAPP'
     publishLocation: 'Container'
 
   
