@@ -29,7 +29,7 @@ steps:
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
-#    goals: 'package deploy'
+    goals: 'package deploy'
 #    options: '-X'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
@@ -55,5 +55,10 @@ steps:
 - task: PublishCodeCoverageResults@1
   inputs:
     summaryFileLocation: '**/CCReport43F6D5EF/jacoco.xml'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'JEEAPP'
+    publishLocation: 'Container'
 
   
