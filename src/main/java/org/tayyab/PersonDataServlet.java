@@ -70,7 +70,8 @@ public class PersonDataServlet extends HttpServlet {
             try {
                 res = dabaseOperations.SavePersonData(dbConnection.getConnection(), personData);
             } catch (Exception e) {
-
+               // e.printStackTrace();
+                response.setHeader("msg", "Error saving data");
             }
             //PrintWriter writer = response.getWriter();
 //
@@ -111,7 +112,7 @@ public class PersonDataServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Boolean reload = (Boolean) request.getAttribute("reload");
-        String username = request.getParameter(dataaction);
+//        String username = request.getParameter(dataaction);
 
         //  if(username!="delete") {
         DatabaseOperations databaseOperations = new DatabaseOperations();
@@ -122,6 +123,7 @@ public class PersonDataServlet extends HttpServlet {
 
         }
         request.setAttribute("data", data);
+
         //   request.setAttribute("reload", true);
         //  request.getRequestDispatcher("ShowData.jsp").forward(request, response);
         //  }
