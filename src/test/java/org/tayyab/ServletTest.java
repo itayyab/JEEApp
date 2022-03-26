@@ -19,7 +19,7 @@ public class ServletTest{
         factory = new WebMockObjectFactory();
         tester = new ServletTestModule(factory);
     }
-   /* @Test
+    @Test
     public void doPostAddTest() {
         tester.addRequestParameter("action", "no");
         tester.addRequestParameter("personsname","Person from Servlet post test");
@@ -84,6 +84,5 @@ public class ServletTest{
     // assertion: status code should be 200
         Assert.assertEquals("Data","Data deleted Successfully", factory.getMockResponse().getHeader("msg"));
     }
-*/
 }
 

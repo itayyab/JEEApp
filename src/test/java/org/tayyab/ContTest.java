@@ -1,5 +1,9 @@
 package org.tayyab;
 
+import com.github.dockerjava.api.model.ExposedPort;
+import com.github.dockerjava.api.model.HostConfig;
+import com.github.dockerjava.api.model.PortBinding;
+import com.github.dockerjava.api.model.Ports;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.Test;
@@ -29,6 +33,10 @@ public class ContTest {
                 .withPassword("root")
                 .withEnv("MYSQL_ROOT_PASSWORD", "root")
              .withInitScript("jersey.sql")
+                .withExposedPorts(34343)
+                .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(
+                        new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(34343), new ExposedPort(3306)))
+                ));
 //                .withConfigurationOverride("somepath/mysql_conf_override")
               //  .withLogConsumer(new Slf4jLogConsumer(logger))
         )
@@ -40,7 +48,7 @@ public class ContTest {
             ResultSet resultSet = performQuery(mysqlOldVersion, "SELECT VERSION()");
             String resultSetString = resultSet.getString(1);
             logger.info("MySQL result: {}",resultSetString);
-            assertTrue("The database version can be set using a container rule parameter", resultSetString.startsWith("5.6"));
+            assertTrue("The database version can be set using a container rule parameter", resultSetString.startsWith("8.0.24"));
         }catch (Exception ex){
             logger.error(ex.getMessage());
         }
