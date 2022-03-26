@@ -28,7 +28,7 @@ public class DbConnection {
             database = prop.getProperty("db.database");
             user=prop.getProperty("db.user");
              pass=prop.getProperty("db.pass");
-            String connectionURL = "jdbc:mysql://localhost:3308/" + database;
+            String connectionURL = "jdbc:mysql://localhost:49154/" + database;
             Connection connection = null;
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             connection = DriverManager.getConnection(connectionURL, user, pass);
