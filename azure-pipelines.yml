@@ -6,9 +6,10 @@
 
 trigger:
 - main
+- testCont
 
 pool:
-  name: TayyabPC
+  vmImage: 'ubuntu-latest'
 
 steps:
 # - task: SonarQubePrepare@4
@@ -18,51 +19,56 @@ steps:
 #     extraProperties: |
 #       sonar.host.url=http://localhost:9000/
 #       sonar.exclusions=**/*.bin
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'SonarCloud'
-    organization: 'itayyab'
-    scannerMode: 'Other'
-- task: MavenAuthenticate@0
-  inputs:
-    artifactsFeeds: 'itayyab'
+#- task: SonarCloudPrepare@1
+#  inputs:
+#    SonarCloud: 'SonarCloud'
+#    organization: 'itayyab'
+#    scannerMode: 'Other'
+#- task: MavenAuthenticate@0
+#  inputs:
+#    artifactsFeeds: 'itayyab'
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
-    goals: 'package deploy'
-#    options: '-X'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    codeCoverageToolOption: 'JaCoCo'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.11'
-    mavenVersionOption: 'Default'
-    mavenOptions: '-Xmx3072m'
-    mavenAuthenticateFeed: true
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: true
-    isJacocoCoverageReportXML: true
-    sqMavenPluginVersionChoice: 'latest'
-    checkStyleRunAnalysis: true
-    pmdRunAnalysis: true
-    findBugsRunAnalysis: true
-- task: SonarCloudPublish@1
-  inputs:
-    pollingTimeoutSec: '300'
-# - task: SonarQubePublish@4
-#   inputs:
-#     pollingTimeoutSec: '300'
-- task: PublishCodeCoverageResults@1
-  inputs:
-    summaryFileLocation: '**/CCReport43F6D5EF/jacoco.xml'
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'JEEAPP'
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.Repository.LocalPath)/target/JEEAPP.war'
-    ArtifactName: 'JEEAPP'
-    publishLocation: 'Container'
-
-  
+    goals: 'clean install'
+    options: '-X'
+#- task: Maven@3
+#  inputs:
+#    mavenPomFile: 'pom.xml'
+#    goals: 'package deploy'
+##    options: '-X'
+#    publishJUnitResults: true
+#    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+#    codeCoverageToolOption: 'JaCoCo'
+#    javaHomeOption: 'JDKVersion'
+#    jdkVersionOption: '1.11'
+#    mavenVersionOption: 'Default'
+#    mavenOptions: '-Xmx3072m'
+#    mavenAuthenticateFeed: true
+#    effectivePomSkip: false
+#    sonarQubeRunAnalysis: true
+#    isJacocoCoverageReportXML: true
+#    sqMavenPluginVersionChoice: 'latest'
+#    checkStyleRunAnalysis: true
+#    pmdRunAnalysis: true
+#    findBugsRunAnalysis: true
+#- task: SonarCloudPublish@1
+#  inputs:
+#    pollingTimeoutSec: '300'
+## - task: SonarQubePublish@4
+##   inputs:
+##     pollingTimeoutSec: '300'
+#- task: PublishCodeCoverageResults@1
+#  inputs:
+#    summaryFileLocation: '**/CCReport43F6D5EF/jacoco.xml'
+#- task: PublishBuildArtifacts@1
+#  inputs:
+#    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+#    ArtifactName: 'JEEAPP'
+#- task: PublishBuildArtifacts@1
+#  inputs:
+#    PathtoPublish: '$(Build.Repository.LocalPath)/target/JEEAPP.war'
+#    ArtifactName: 'JEEAPP'
+#    publishLocation: 'Container'
+#
+#
