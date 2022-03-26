@@ -8,7 +8,10 @@ import com.google.gson.JsonParser;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.utility.DockerImageName;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
@@ -21,6 +24,7 @@ import static org.junit.Assert.assertEquals;
 public class ApiTest extends JerseyTest {
 
     static String id="0";
+    public static final DockerImageName MYSQL_80_IMAGE = DockerImageName.parse("mysql:8.0.24");
     @Override
     public Application configure() {
         enable(TestProperties.LOG_TRAFFIC);
@@ -28,7 +32,30 @@ public class ApiTest extends JerseyTest {
 
         return new ResourceConfig(Api.class);
     }
-   /* @Test
+    @BeforeClass
+    public static void initDb(){
+        try (MySQLContainer<?> mysqlOldVersion = new MySQLContainer<>(MYSQL_80_IMAGE)
+//                .withConfigurationOverride("mysql_conf_override")
+                .withDatabaseName("jersey_db_test")
+                .withUsername("root")
+                .withPassword("root")
+                .withEnv("MYSQL_ROOT_PASSWORD", "root")
+                .withInitScript("jersey.sql")
+//                .withExposedPorts(34343)
+//                .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(
+//                        new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(34343), new ExposedPort(3306)))
+//                ));
+//                .withConfigurationOverride("somepath/mysql_conf_override")
+             //  .withLogConsumer(new Slf4jLogConsumer(logger))
+        )
+        {
+
+            mysqlOldVersion.start();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+    @Test
     public void testAddData() {
 
         Response response = target("api/adddata").request().post(Entity.json("{\"id\":1,\"name\":\"Test Person 2\"}"));
@@ -70,5 +97,5 @@ public class ApiTest extends JerseyTest {
         String content = response.readEntity(String.class);
         System.out.println(content);
         assertEquals("Data should be delete successfully", "Data deleted Successfully", content);
-    }*/
+    }
 }
