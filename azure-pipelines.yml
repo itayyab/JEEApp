@@ -3,6 +3,9 @@
 # Build your Java project and run tests with Apache Maven.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
+variables:
+  MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
+  MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
 
 trigger:
 - main
@@ -27,11 +30,21 @@ steps:
 #- task: MavenAuthenticate@0
 #  inputs:
 #    artifactsFeeds: 'itayyab'
+
+- task: Cache@2
+  inputs:
+    key: 'maven | "$(Agent.OS)" | **/pom.xml'
+    restoreKeys: |
+      maven | "$(Agent.OS)"
+      maven
+    path: $(MAVEN_CACHE_FOLDER)
+  displayName: Cache Maven local repo
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
     goals: 'clean install'
     options: '-X'
+    mavenOptions: '-Xmx3072m $(MAVEN_OPTS)'
 #- task: Maven@3
 #  inputs:
 #    mavenPomFile: 'pom.xml'
