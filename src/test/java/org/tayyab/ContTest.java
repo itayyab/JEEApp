@@ -23,7 +23,7 @@ public class ContTest {
     private static final Logger logger = LoggerFactory.getLogger(ContTest.class);
     @Test
     public void testSpecificVersion() throws SQLException {
-        try (MySQLContainer<?> mysqlOldVersion = new MySQLContainer<>(MYSQL_56_IMAGE)
+        try (MySQLContainer<?> mysqlOldVersion = new MySQLContainer<>(MYSQL_80_IMAGE)
                 .withDatabaseName("jersey_db_test")
                 .withUsername("root")
                 .withPassword("root")
