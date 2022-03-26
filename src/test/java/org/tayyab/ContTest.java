@@ -24,12 +24,18 @@ public class ContTest {
     @Test
     public void testSpecificVersion() throws SQLException {
         try (MySQLContainer<?> mysqlOldVersion = new MySQLContainer<>(MYSQL_56_IMAGE)
+                .withDatabaseName("jersey_db_test")
+                .withUsername("root")
+                .withPassword("root")
+                .withEnv("MYSQL_ROOT_PASSWORD", "root")
+             .withInitScript("jersey.sql")
 //                .withConfigurationOverride("somepath/mysql_conf_override")
               //  .withLogConsumer(new Slf4jLogConsumer(logger))
         )
         {
 
             mysqlOldVersion.start();
+            logger.info("MySQL JBDC: {}",mysqlOldVersion.getJdbcUrl());
 
             ResultSet resultSet = performQuery(mysqlOldVersion, "SELECT VERSION()");
             String resultSetString = resultSet.getString(1);
