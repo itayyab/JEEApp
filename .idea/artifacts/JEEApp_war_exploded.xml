@@ -82,6 +82,8 @@
           <element id="library" level="project" name="Maven: org.apache.struts:struts-extras:1.3.10" />
           <element id="library" level="project" name="Maven: cglib:cglib-nodep:2.1_3" />
           <element id="library" level="project" name="Maven: jboss:jboss-j2ee:4.2.2.GA" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.32" />
+          <element id="library" level="project" name="Maven: com.zaxxer:HikariCP:5.0.1" />
         </element>
       </element>
       <element id="directory" name="META-INF">
