@@ -28,7 +28,7 @@ public class ApiTest extends JerseyTest {
 
         return new ResourceConfig(Api.class);
     }
-    @Test
+   /* @Test
     public void testAddData() {
 
         Response response = target("api/adddata").request().post(Entity.json("{\"id\":1,\"name\":\"Test Person 2\"}"));
@@ -70,5 +70,5 @@ public class ApiTest extends JerseyTest {
         String content = response.readEntity(String.class);
         System.out.println(content);
         assertEquals("Data should be delete successfully", "Data deleted Successfully", content);
-    }
+    }*/
 }
