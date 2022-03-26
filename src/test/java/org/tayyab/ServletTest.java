@@ -29,6 +29,7 @@ public class ServletTest{
     @BeforeClass
     public static void initDb(){
         try (MySQLContainer<?> mysqlOldVersion = new MySQLContainer<>(MYSQL_80_IMAGE)
+                .withConfigurationOverride("mysql_conf_override")
                 .withDatabaseName("jersey_db_test")
                 .withUsername("root")
                 .withPassword("root")
