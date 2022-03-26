@@ -27,7 +27,9 @@ public class DatabaseOperations {
                 data.add(pd);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             throw (e);
+
         } finally {
                 st.close();
             conn.close();
@@ -59,6 +61,7 @@ public class DatabaseOperations {
         } catch (Exception e) {
             String resp = "{\"id\":" + count + ",\"msg\":\"" + e.getMessage() + "\"}";
             jsonConverter.toJson(resp);
+            e.printStackTrace();
         } finally {
                 pst.close();
                 rs.close();
