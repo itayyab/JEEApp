@@ -25,35 +25,35 @@ public class ContTest {
     public static final DockerImageName MYSQL_57_IMAGE = DockerImageName.parse("mysql:5.7.34");
     public static final DockerImageName MYSQL_80_IMAGE = DockerImageName.parse("mysql:8.0.24");
     private static final Logger logger = LoggerFactory.getLogger(ContTest.class);
-    @Test
-    public void testSpecificVersion() throws SQLException {
-        try (MySQLContainer<?> mysqlOldVersion = new MySQLContainer<>(MYSQL_80_IMAGE)
-                .withConfigurationOverride("mysql_conf_override")
-                .withDatabaseName("jersey_db_test")
-                .withUsername("root")
-                .withPassword("root")
-                .withEnv("MYSQL_ROOT_PASSWORD", "root")
-             .withInitScript("jersey.sql")
-//                .withExposedPorts(34343)
-//                .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(
-//                        new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(34343), new ExposedPort(3306)))
-//                ));
-//                .withConfigurationOverride("somepath/mysql_conf_override")
-              //  .withLogConsumer(new Slf4jLogConsumer(logger))
-        )
-        {
-
-            mysqlOldVersion.start();
-            logger.info("MySQL JBDC: {}",mysqlOldVersion.getJdbcUrl());
-
-            ResultSet resultSet = performQuery(mysqlOldVersion, "SELECT VERSION()");
-            String resultSetString = resultSet.getString(1);
-            logger.info("MySQL result: {}",resultSetString);
-            assertTrue("The database version can be set using a container rule parameter", resultSetString.startsWith("8.0.24"));
-        }catch (Exception ex){
-            logger.error(ex.getMessage());
-        }
-    }
+//    @Test
+//    public void testSpecificVersion() throws SQLException {
+//        try (MySQLContainer<?> mysqlOldVersion = new MySQLContainer<>(MYSQL_80_IMAGE)
+////                .withConfigurationOverride("mysql_conf_override")
+//                .withDatabaseName("jersey_db_test")
+//                .withUsername("root")
+//                .withPassword("root")
+//                .withEnv("MYSQL_ROOT_PASSWORD", "root")
+//             .withInitScript("jersey.sql")
+////                .withExposedPorts(34343)
+////                .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(
+////                        new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(34343), new ExposedPort(3306)))
+////                ));
+////                .withConfigurationOverride("somepath/mysql_conf_override")
+//              //  .withLogConsumer(new Slf4jLogConsumer(logger))
+//        )
+//        {
+//
+//            mysqlOldVersion.start();
+//            logger.info("MySQL JBDC: {}",mysqlOldVersion.getJdbcUrl());
+//
+//            ResultSet resultSet = performQuery(mysqlOldVersion, "SELECT VERSION()");
+//            String resultSetString = resultSet.getString(1);
+//            logger.info("MySQL result: {}",resultSetString);
+//            assertTrue("The database version can be set using a container rule parameter", resultSetString.startsWith("8.0.24"));
+//        }catch (Exception ex){
+//            logger.error(ex.getMessage());
+//        }
+//    }
     protected ResultSet performQuery(JdbcDatabaseContainer<?> container, String sql) throws SQLException {
         DataSource ds = getDataSource(container);
         Statement statement = ds.getConnection().createStatement();
