@@ -35,7 +35,7 @@ public class DbConnection {
             return connection;
         } catch (Exception ex) {
             //System.out.println(String.valueOf(getClass().getResourceAsStream("resources/app.properties")));
-           // ex.printStackTrace();
+            ex.printStackTrace();
             return null;
         }
     }
