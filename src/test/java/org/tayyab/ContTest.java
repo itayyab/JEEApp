@@ -33,10 +33,10 @@ public class ContTest {
                 .withPassword("root")
                 .withEnv("MYSQL_ROOT_PASSWORD", "root")
              .withInitScript("jersey.sql")
-                .withExposedPorts(34343)
-                .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(
-                        new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(34343), new ExposedPort(3306)))
-                ));
+//                .withExposedPorts(34343)
+//                .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(
+//                        new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(34343), new ExposedPort(3306)))
+//                ));
 //                .withConfigurationOverride("somepath/mysql_conf_override")
               //  .withLogConsumer(new Slf4jLogConsumer(logger))
         )
